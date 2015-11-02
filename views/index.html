@@ -1,0 +1,52 @@
+<script src='/socket.io/socket.io.js'></script>  
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js'></script>
+<script>
+  var socket = io.connect(); 
+  var watchArray = [];
+  function getTimeline(screenname) {
+    console.log(screenname);
+    watchArray = [];
+    $(".latesttweets").empty();
+    $(".analysis").empty();
+    socket.emit("gettimeline", screenname);
+  }
+  function count(arr) {
+    var a = [], b = [], prev;
+    arr.sort();
+    for ( var i = 0; i < arr.length; i++ ) {
+      if ( arr[i] !== prev ) {
+        a.push(arr[i]);
+        b.push(1);
+      } else {
+        b[b.length-1]++;
+      }
+      prev = arr[i];
+    }
+    return [a, b];
+  }
+  function analyze() {
+    var finalArray = watchArray.concat(watchArray[0], watchArray[1],watchArray[2],watchArray[3],watchArray[4])
+    var result = count(finalArray);
+    $(".analysis").append('[' + result[0] + ']<br>[' + result[1] + ']');
+  }
+  $(function () {
+    socket.on('stream', function(tweet){
+      $('.tweetstream').append('<h2>' + tweet.user.screen_name + '</h2><p>' + tweet.text + '</p> <button onclick="getTimeline(\'' + tweet.user.screen_name  +'\')">Track</button>');
+      //console.log(tweet);
+    });
+    
+    socket.on("gottimeline", function(data) {
+      Object.keys(data).forEach(function(key) {
+        //console.log(data[key].text);
+        var res = data[key].text.split(" ");
+        watchArray.push(res);
+        $(".latesttweets").append("<li>" + data[key].text + "</li>")
+        //console.log(watchArray);
+      });
+    })
+  });
+</script>
+<div class="tweetstream" style="width:500px; height: 500px; overflow: auto; float:left;"></div>
+<div class="latesttweets" style="width:500px; height: 500px; overflow: auto; float:left; position:relative; left: 30px;"></div>
+<div class="analysis" style="width:500px; height: 500px; overflow: auto; float:left; position:relative; left: 30px;"></div>
+<button onclick="analyze()" style="float:left;position:relative;left:30px;">Analyze</button>

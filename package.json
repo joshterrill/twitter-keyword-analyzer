@@ -1,0 +1,34 @@
+{
+  "name": "twitter-keyword-analyzer",
+  "version": "1.0.0",
+  "description": "an experimental twitter keyword analyzer",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshterrill/twitter-keyword-analyzer.git"
+  },
+  "keywords": [
+    "express",
+    "starter",
+    "app"
+  ],
+  "author": "Josh Terrill",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joshterrill/twitter-keyword-analyzer/issues"
+  },
+  "homepage": "https://github.com/joshterrill/twitter-keyword-analyzer#readme",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "express-handlebars": "^2.0.1",
+    "mongodb": "^2.0.47",
+    "morgan": "^1.6.1",
+    "oauth": "^0.9.14",
+    "socket.io": "*",
+    "twit": "*"
+  }
+}
